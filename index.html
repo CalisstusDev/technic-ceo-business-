@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#84cc16">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TECHNIC CEO">
+    <meta name="description" content="TECHNIC CEO INT'L BUSINESS ORG provides reliable digital, technology, and business solutions that help organizations build stronger brands, improve their operations, and grow in today's competitive market.">
+    <title>TECHNIC CEO INT'L BUSINESS ORG | Digital Solutions for Business</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.svg">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Auth Modals -->
+    <div class="auth-modal" id="auth-modal">
+      <div class="auth-modal-content">
+        <button class="auth-modal-close" id="auth-modal-close">×</button>
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login">Sign In</button>
+          <button class="auth-tab" data-tab="signup">Create Account</button>
+        </div>
+
+        <!-- Login Form -->
+        <form class="auth-form" id="login-form">
+          <h2>Welcome Back</h2>
+          <p class="auth-subtitle">Sign in to access your account</p>
+          <button type="button" class="button button-outline auth-google" id="google-login">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Sign in with Google
+          </button>
+          <div class="auth-divider">
+            <span>or continue with email</span>
+          </div>
+          <label>Email Address
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </label>
+          <label class="password-label">Password
+            <div class="password-input-wrapper">
+              <input type="password" name="password" id="login-password" placeholder="••••••••" required>
+              <button type="button" class="password-toggle" data-target="login-password" aria-label="Show password">
+                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </label>
+          <button type="submit" class="button button-orange auth-submit">Sign In</button>
+        </form>
+
+        <!-- Signup Form -->
+        <form class="auth-form" id="signup-form" style="display: none;">
+          <h2>Create Account</h2>
+          <p class="auth-subtitle">Join TECHNIC CEO INT'L BUSINESS ORG</p>
+          <button type="button" class="button button-outline auth-google" id="google-signup">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Sign up with Google
+          </button>
+          <div class="auth-divider">
+            <span>or continue with email</span>
+          </div>
+          <label>Full Name
+            <input type="text" name="fullName" placeholder="Your full name" required>
+          </label>
+          <label>Email Address
+            <input type="email" name="email" placeholder="you@example.com" required>
+          </label>
+          <label class="password-label">Password
+            <div class="password-input-wrapper">
+              <input type="password" name="password" id="signup-password" placeholder="••••••••" required>
+              <button type="button" class="password-toggle" data-target="signup-password" aria-label="Show password">
+                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </label>
+          <label class="password-label">Confirm Password
+            <div class="password-input-wrapper">
+              <input type="password" name="confirmPassword" id="signup-confirm-password" placeholder="••••••••" required>
+              <button type="button" class="password-toggle" data-target="signup-confirm-password" aria-label="Show password">
+                <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </label>
+          <button type="submit" class="button button-orange auth-submit">Create Account</button>
+        </form>
+
+        <div class="auth-status" id="auth-status"></div>
+      </div>
+    </div>
+
+    <header class="site-header" id="top">
+      <div class="header-inner">
+        <a class="brand" href="#home" aria-label="TECHNIC CEO International Business Organization home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          <span class="brand-name">TECHNIC CEO<span>INT'L BUSINESS ORG</span></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation menu">
+          <span></span><span></span>
+        </button>
+        <nav class="primary-nav" id="primary-nav" aria-label="Main navigation">
+          <a href="#home">Home</a>
+          <a href="#about">About Us</a>
+          <a href="#services">Services</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#insights">Blog</a>
+          <a href="#contact">Contact</a>
+          <a href="#users" class="nav-users" style="display: none;">Users</a>
+          <a href="#messages" class="nav-messages" style="display: none;">Messages <span class="notification-badge" id="message-badge"></span></a>
+          <a href="#notifications" class="nav-notifications" style="display: none;">Notifications <span class="notification-badge" id="notification-badge"></span></a>
+          <div class="auth-buttons">
+            <button class="button button-small button-ghost auth-btn" id="login-btn">Sign In</button>
+            <button class="button button-small button-orange auth-btn" id="signup-btn">Create Account</button>
+          </div>
+          <div class="user-menu" id="user-menu" style="display: none;">
+            <a href="#profile" class="user-profile-link" id="user-profile-link">
+              <span class="user-avatar" id="user-avatar"></span>
+              <span class="user-name" id="user-name"></span>
+            </a>
+            <button class="button button-small button-ghost" id="logout-btn">Sign Out</button>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero section-dark" id="home">
+        <div class="hero-grid texture-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-line"></span> Technology · Design · Business</p>
+            <h1>Building digital solutions <em>for the future of business.</em></h1>
+            <p class="hero-intro">TECHNIC CEO INT'L BUSINESS ORG provides reliable digital, technology, and business solutions that help organizations build stronger brands, improve their operations, and grow in today's competitive market.</p>
+            <div class="hero-actions">
+              <a class="button button-orange" href="#contact">Get started <span aria-hidden="true">↗</span></a>
+              <a class="text-link text-link-light" href="#services">Explore our services <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="hero-footnote"><span class="status-dot"></span> Supporting businesses across African and American markets</div>
+          </div>
+          <div class="hero-visual">
+            <img class="hero-image" src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1400&q=85" alt="Light-filled contemporary workspace with a team meeting table" fetchpriority="high">
+            <div class="hero-image-shade"></div>
+            <div class="visual-label"><span class="visual-label-number">01</span><span>Ideas, made<br>business-ready.</span><span class="visual-label-arrow" aria-hidden="true">↗</span></div>
+            <div class="hero-coordinate">BUILT FOR WHAT'S NEXT <span>·</span> 09°04' N / 07°29' E</div>
+          </div>
+          <div class="hero-index" aria-hidden="true">TC / 01</div>
+        </div>
+        <div class="hero-bottom"><span>Independent thinking. Practical technology.</span><a href="#about">Scroll to discover <span aria-hidden="true">↓</span></a></div>
+      </section>
+
+      <section class="trust-strip" aria-label="Our capabilities">
+        <div class="trust-inner"><span class="trust-label">A partner for your next move</span><span>Digital presence</span><i></i><span>Business systems</span><i></i><span>Brand growth</span><i></i><span>Technology strategy</span></div>
+      </section>
+
+      <section class="section about-section" id="about">
+        <div class="section-shell about-layout">
+          <div class="about-aside"><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> About the organization</p><span class="section-number">01 <span>/ 08</span></span></div>
+          <div class="about-main">
+            <h2>Good technology should move your business <span>forward.</span></h2>
+            <div class="about-content-grid">
+              <div class="about-image-wrap"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=82" alt="Colleagues sharing ideas around a table" loading="lazy"><span class="image-caption">A clearer path from idea to impact.</span></div>
+              <div class="about-copy">
+                <p class="lead-copy">Since 2020, TECHNIC CEO INT'L BUSINESS ORG has helped businesses build, strengthen, and grow their digital presence.</p>
+                <p>We bring technology, design, branding, marketing, and business thinking together to create solutions that work in the real world. Our team travels to different countries to meet businesses, understand local needs, and find practical ways to help them compete in a connected economy.</p>
+                <a class="text-link" href="#contact">Get to know us <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+            <div class="purpose-grid">
+              <article class="purpose-item"><span class="purpose-index">A / MISSION</span><h3>Make progress practical.</h3><p>Provide innovative, useful digital solutions that help businesses move toward measurable growth.</p></article>
+              <article class="purpose-item"><span class="purpose-index">B / VISION</span><h3>Connect possibility.</h3><p>Become a trusted international technology and business organization connecting innovation, talent, and opportunity.</p></article>
+              <article class="purpose-item values-item"><span class="purpose-index">C / CORE VALUES</span><h3>How we work.</h3><p>Innovation · Integrity · Excellence · Professionalism · Customer success · Continuous improvement</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section services-section section-light" id="services">
+        <div class="section-shell">
+          <div class="section-heading"><div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> What we do</p><h2>Thoughtful services.<br><span>One connected direction.</span></h2></div><p class="heading-note">The right blend of technology, creativity, and business experience to help you take the next step with confidence.</p></div>
+          <div class="services-grid">
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="1.5"/><path d="M8 21h8m-4-4v4M7 8h10M7 12h6"/></svg></span><span class="service-number">01</span><h3>Website development</h3><p>Responsive, high-performance websites built to represent your business and serve your customers.</p><a href="#contact" aria-label="Ask about website development">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8m-8 4h4m-4 4h8m-8 3h5"/></svg></span><span class="service-number">02</span><h3>UI/UX design</h3><p>Clear, intuitive interfaces shaped around the needs of your audience and your business.</p><a href="#contact" aria-label="Ask about UI/UX design">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18v-6a8 8 0 0 1 16 0v6M4 17v2a2 2 0 0 0 2 2h2v-6H6a2 2 0 0 0-2 2Zm16 0v2a2 2 0 0 1-2 2h-2v-6h2a2 2 0 0 1 2 2Z"/></svg></span><span class="service-number">03</span><h3>Social media management</h3><p>Strategy, content planning, and audience engagement that give your brand a consistent voice.</p><a href="#contact" aria-label="Ask about social media management">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2L12 3Z"/><path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/></svg></span><span class="service-number">04</span><h3>Branding</h3><p>Distinctive brand direction, visual identity, and assets designed to make your business recognizable.</p><a href="#contact" aria-label="Ask about branding">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5M8 12l2-3 2 4 1.5-2H16"/></svg></span><span class="service-number">05</span><h3>Search engine optimization</h3><p>Practical SEO foundations and strategies to improve search visibility and organic discovery.</p><a href="#contact" aria-label="Ask about search engine optimization">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h17M7 15l4-5 3 2 5-6"/><path d="M15 6h4v4"/></svg></span><span class="service-number">06</span><h3>Digital advertising</h3><p>Focused digital campaigns designed to reach relevant audiences and support lead generation.</p><a href="#contact" aria-label="Ask about digital advertising">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1m-8.6 8.6-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg></span><span class="service-number">07</span><h3>Business automation</h3><p>Smarter processes and connected tools that reduce repetitive work and give teams more time.</p><a href="#contact" aria-label="Ask about business automation">Learn more <span aria-hidden="true">↗</span></a></article>
+            <article class="service-card"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 5 3.4 7.8 8 9 4.6-1.2 8-4 8-9V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></span><span class="service-number">08</span><h3>IT consulting</h3><p>Technology advice and digital strategy to help your organization make informed decisions.</p><a href="#contact" aria-label="Ask about IT consulting">Learn more <span aria-hidden="true">↗</span></a></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section portfolio-section section-dark" id="portfolio">
+        <div class="section-shell">
+          <div class="section-heading section-heading-invert"><div><p class="eyebrow"><span class="eyebrow-line"></span> Selected capabilities</p><h2>Work that makes<br><em>ideas tangible.</em></h2></div><p class="heading-note">A look at the kinds of digital challenges we help solve. These sample concepts illustrate our capabilities, not verified client projects.</p></div>
+          <div class="portfolio-grid">
+            <article class="project-card project-featured"><a class="project-image" href="#contact" aria-label="Discuss a corporate website project"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=82" alt="Modern glass-fronted business building" loading="lazy"><span class="project-open" aria-hidden="true">↗</span></a><div class="project-meta"><span>Website development</span><span>Sample concept / 01</span></div><h3>Corporate website</h3><p>A confident digital home for an organization ready to make its offer easier to understand.</p></article>
+            <article class="project-card"><a class="project-image" href="#contact" aria-label="Discuss an e-commerce platform project"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=82" alt="Customer making a payment at a small business" loading="lazy"><span class="project-open" aria-hidden="true">↗</span></a><div class="project-meta"><span>Digital commerce</span><span>Sample concept / 02</span></div><h3>E-commerce platform</h3><p>A streamlined storefront concept designed around product discovery and checkout.</p></article>
+            <article class="project-card"><a class="project-image" href="#contact" aria-label="Discuss a business branding project"><img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1000&q=82" alt="Team reviewing design materials at a desk" loading="lazy"><span class="project-open" aria-hidden="true">↗</span></a><div class="project-meta"><span>Brand identity</span><span>Sample concept / 03</span></div><h3>Business branding</h3><p>A coordinated visual direction built to bring clarity and consistency to a growing brand.</p></article>
+            <article class="project-card"><a class="project-image" href="#contact" aria-label="Discuss a mobile UI/UX project"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9e?auto=format&fit=crop&w=1000&q=82" alt="Smartphone showing a mobile app interface" loading="lazy"><span class="project-open" aria-hidden="true">↗</span></a><div class="project-meta"><span>Product design</span><span>Sample concept / 04</span></div><h3>Mobile UI/UX</h3><p>A simple mobile experience concept that helps users find what they need with fewer steps.</p></article>
+            <article class="project-card"><a class="project-image" href="#contact" aria-label="Discuss a digital marketing campaign"><img src="https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1000&q=82" alt="Colorful campaign design and creative materials" loading="lazy"><span class="project-open" aria-hidden="true">↗</span></a><div class="project-meta"><span>Digital marketing</span><span>Sample concept / 05</span></div><h3>Digital campaign</h3><p>A multi-channel campaign framework for a business introducing a new offer.</p></article>
+            <article class="project-card"><a class="project-image" href="#contact" aria-label="Discuss a business automation system"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1000&q=82" alt="Team collaborating around a laptop" loading="lazy"><span class="project-open" aria-hidden="true">↗</span></a><div class="project-meta"><span>Business systems</span><span>Sample concept / 06</span></div><h3>Automation system</h3><p>A workflow concept to help a small team coordinate requests and recurring tasks.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section pricing-section" id="pricing">
+        <div class="section-shell">
+          <div class="section-heading"><div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Engagement options</p><h2>A starting point.<br><span>Not a one-size-fits-all.</span></h2></div><p class="heading-note">Every business has a different brief. These sample starting prices are illustrative only; final pricing depends on scope and requirements.</p></div>
+          <div class="pricing-grid">
+            <article class="price-card"><p class="price-tier">01 / STARTER</p><h3>Starter</h3><p class="price-audience">For individuals and small businesses building their first digital presence.</p><div class="price-value"><span>From</span><strong>$1,500</strong><small>USD · sample starting price</small></div><ul><li>Focused project scope</li><li>Core digital deliverable</li><li>Defined project timeline</li><li>Direct project communication</li></ul><a class="button button-outline" href="#contact">Request a quote <span aria-hidden="true">↗</span></a></article>
+            <article class="price-card price-featured"><span class="popular-tag">A flexible starting point</span><p class="price-tier">02 / PROFESSIONAL</p><h3>Professional</h3><p class="price-audience">For growing businesses ready to build a stronger, more cohesive presence.</p><div class="price-value"><span>From</span><strong>$3,500</strong><small>USD · sample starting price</small></div><ul><li>Expanded project scope</li><li>Strategy and implementation</li><li>Responsive design approach</li><li>Structured review milestones</li></ul><a class="button button-orange" href="#contact">Request a quote <span aria-hidden="true">↗</span></a></article>
+            <article class="price-card"><p class="price-tier">03 / BUSINESS</p><h3>Business</h3><p class="price-audience">For organizations coordinating multiple digital services or business needs.</p><div class="price-value"><span>From</span><strong>$7,500</strong><small>USD · sample starting price</small></div><ul><li>Multiple connected services</li><li>Collaborative planning</li><li>Scalable solution design</li><li>Tailored project delivery</li></ul><a class="button button-outline" href="#contact">Request a quote <span aria-hidden="true">↗</span></a></article>
+            <article class="price-card"><p class="price-tier">04 / ENTERPRISE</p><h3>Enterprise</h3><p class="price-audience">For organizations seeking customized technology and consulting solutions.</p><div class="price-value"><span>Scope-based</span><strong class="price-custom">Let's talk</strong><small>Proposal based on your requirements</small></div><ul><li>Discovery-led engagement</li><li>Custom technology planning</li><li>Complex project coordination</li><li>Flexible service configuration</li></ul><a class="button button-outline" href="#contact">Discuss your scope <span aria-hidden="true">↗</span></a></article>
+          </div>
+          <p class="pricing-note">Prices shown are illustrative sample amounts, not official company quotations. A tailored proposal is provided after understanding your needs.</p>
+        </div>
+      </section>
+
+      <section class="section testimonial-section section-orange" id="testimonials">
+        <div class="section-shell testimonial-layout">
+          <div class="testimonial-intro"><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Client perspective</p><h2>Good work starts<br>with <span>good listening.</span></h2><p>We value thoughtful collaboration and clear communication at every stage of a project.</p><span class="testimonial-disclaimer">Sample testimonial layout · replace with approved client feedback</span></div>
+          <article class="quote-card"><div class="quote-mark" aria-hidden="true">“</div><blockquote>“[Add an approved customer quote here. Share what the project was like and the difference the work made to your business.]”</blockquote><div class="quote-attribution"><span class="avatar-placeholder" aria-hidden="true">CP</span><span><strong>[Customer name]</strong><small>[Business or company]</small></span><span class="quote-index">01 / 01</span></div></article>
+        </div>
+      </section>
+
+      <section class="section why-section section-dark">
+        <div class="section-shell why-layout"><div class="why-heading"><p class="eyebrow"><span class="eyebrow-line"></span> Why work with us</p><h2>Built around<br><em>your business.</em></h2><p>We bring curiosity, practical thinking, and an international perspective to the work in front of us.</p><a class="text-link text-link-light" href="#contact">Start a conversation <span aria-hidden="true">↗</span></a></div><div class="why-list"><article><span>01</span><div><h3>Professional digital solutions</h3><p>Careful, considered work shaped around your goals.</p></div><b aria-hidden="true">↗</b></article><article><span>02</span><div><h3>Customer-focused approach</h3><p>Decisions informed by the people your business serves.</p></div><b aria-hidden="true">↗</b></article><article><span>03</span><div><h3>Business-oriented strategy</h3><p>Technology choices grounded in real operational needs.</p></div><b aria-hidden="true">↗</b></article><article><span>04</span><div><h3>Solutions that can scale</h3><p>Flexible foundations that can grow with your organization.</p></div><b aria-hidden="true">↗</b></article><article><span>05</span><div><h3>An international perspective</h3><p>Experience shaped by working across different markets.</p></div><b aria-hidden="true">↗</b></article><article><span>06</span><div><h3>Reliable communication</h3><p>Clear conversations and shared expectations throughout.</p></div><b aria-hidden="true">↗</b></article><article><span>07</span><div><h3>Continuous improvement</h3><p>Thoughtful refinement as your needs and opportunities evolve.</p></div><b aria-hidden="true">↗</b></article></div></div>
+      </section>
+
+      <section class="section insights-section" id="insights">
+        <div class="section-shell">
+          <div class="section-heading"><div><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Ideas for what's next</p><h2>Notes on a changing<br><span>digital world.</span></h2></div><a class="text-link insights-all" href="#contact">Explore an idea with us <span aria-hidden="true">↗</span></a></div>
+          <div class="article-grid">
+            <article class="article-card"><a class="article-image" href="#contact" aria-label="Discuss digital transformation"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80" alt="Earth at night with illuminated network connections" loading="lazy"></a><div class="article-meta"><span>Digital transformation</span><time datetime="2026-09-18">Sep 18, 2026</time></div><h3>Digital transformation starts with a better question</h3><p>Before choosing new tools, get clear on the business problem they need to solve.</p><a class="article-link" href="#contact">Read more <span aria-hidden="true">↗</span></a></article>
+            <article class="article-card"><a class="article-image" href="#contact" aria-label="Read about website planning"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80" alt="Analytics dashboard on a laptop screen" loading="lazy"></a><div class="article-meta"><span>Website development</span><time datetime="2026-09-10">Sep 10, 2026</time></div><h3>A useful website is built around its visitors</h3><p>Practical ways to make your next website clearer, easier to navigate, and more useful.</p><a class="article-link" href="#contact">Read more <span aria-hidden="true">↗</span></a></article>
+            <article class="article-card"><a class="article-image" href="#contact" aria-label="Read about building a brand"><img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=900&q=80" alt="Creative brand identity materials on a desk" loading="lazy"></a><div class="article-meta"><span>Brand &amp; marketing</span><time datetime="2026-08-28">Aug 28, 2026</time></div><h3>Consistency is a business decision, not just a design choice</h3><p>How a coherent brand experience can help customers understand what you offer.</p><a class="article-link" href="#contact">Read more <span aria-hidden="true">↗</span></a></article>
+            <article class="article-card"><a class="article-image" href="#contact" aria-label="Read about business automation"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Laptop and notebook in a collaborative workspace" loading="lazy"></a><div class="article-meta"><span>Automation &amp; growth</span><time datetime="2026-08-14">Aug 14, 2026</time></div><h3>Start small when automating a business process</h3><p>Find the repeated work, understand the handoffs, and improve one process at a time.</p><a class="article-link" href="#contact">Read more <span aria-hidden="true">↗</span></a></article>
+          </div>
+          <p class="editorial-note">Editorial previews are sample content for this website and can be replaced with published articles.</p>
+        </div>
+      </section>
+
+      <section class="cta-band section-dark">
+        <div class="section-shell cta-layout"><p class="eyebrow"><span class="eyebrow-line"></span> Your next chapter</p><h2>Ready to take your<br>business <em>digital?</em></h2><div class="cta-bottom"><p>Let's turn your ideas, challenges, and business goals into practical digital solutions.</p><div class="cta-actions"><a class="button button-orange" href="#contact">Get started <span aria-hidden="true">↗</span></a><a class="button button-ghost" href="#contact">Contact us <span aria-hidden="true">↗</span></a></div></div><span class="cta-decoration" aria-hidden="true">TC / 2020—</span></div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="section-shell contact-layout">
+          <div class="contact-info"><p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Contact</p><h2>Let's make<br><span>something work.</span></h2><p class="contact-lead">Tell us where you want to go. We'll start with a conversation about what your business needs.</p>
+            <div class="contact-details"><div><span>EMAIL</span><a href="mailto:gabrielgabriel9727@gmail.com">gabrielgabriel9727@gmail.com</a></div><div><span>PHONE</span><a href="tel:+2347088519727">+234 708 851 9727</a></div><div><span>LOCATION</span><p>Abuja City, Nigeria<br>West Africa</p></div><div><span>BUSINESS HOURS</span><p>Full-time: Monday - Friday, 9:00 AM - 6:00 PM<br>Part-time: Saturday, 10:00 AM - 4:00 PM<br>Online Connection: Available 24/7</p></div></div>
+          </div>
+          <form class="contact-form" id="contact-form">
+            <div class="form-heading"><h3>Tell us about your project</h3><p>Fields marked * are required.</p></div>
+            <div class="form-row"><label>Full name *<input name="name" autocomplete="name" placeholder="Your name" required></label><label>Email address *<input type="email" name="email" autocomplete="email" placeholder="you@company.com" required></label></div>
+            <div class="form-row"><label>Phone number<input type="tel" name="phone" autocomplete="tel" placeholder="+234"></label><label>Company name<input name="company" autocomplete="organization" placeholder="Your organization"></label></div>
+            <label>Service required<select name="service"><option value="Not sure yet">Choose a service</option><option>Website development</option><option>UI/UX design</option><option>Social media management</option><option>Branding</option><option>Search engine optimization</option><option>Digital advertising</option><option>Business automation</option><option>IT consulting</option><option>Multiple services</option></select></label>
+            <label>Tell us about your project *<textarea name="message" rows="4" placeholder="A little about your goals, timing, or challenge..." required></textarea></label>
+            <div class="form-submit-row"><button class="button button-orange" type="submit">Send an inquiry <span aria-hidden="true">↗</span></button><p class="form-note" id="form-status" role="status" aria-live="polite">Your email application will open to send this inquiry.</p></div>
+          </form>
+        </div>
+      </section>
+
+      <!-- User Profile Section -->
+      <section class="section profile-section" id="profile" style="display: none;">
+        <div class="section-shell">
+          <div class="profile-header">
+            <div class="profile-avatar-large" id="profile-avatar-large"></div>
+            <div class="profile-info">
+              <h2 id="profile-name">Your Profile</h2>
+              <p id="profile-email" class="profile-email"></p>
+            </div>
+            <button class="button button-orange" id="edit-profile-btn">Edit Profile</button>
+          </div>
+          <div class="profile-details">
+            <div class="profile-detail-item">
+              <span class="detail-label">Bio</span>
+              <p id="profile-bio">No bio added yet</p>
+            </div>
+            <div class="profile-detail-item">
+              <span class="detail-label">Location</span>
+              <p id="profile-location">Not specified</p>
+            </div>
+            <div class="profile-detail-item">
+              <span class="detail-label">Website</span>
+              <p id="profile-website">Not specified</p>
+            </div>
+            <div class="profile-detail-item">
+              <span class="detail-label">Member Since</span>
+              <p id="profile-joined"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Edit Profile Modal -->
+      <div class="auth-modal" id="edit-profile-modal">
+        <div class="auth-modal-content">
+          <button class="auth-modal-close" id="edit-profile-close">×</button>
+          <h2>Edit Profile</h2>
+          <form class="auth-form" id="edit-profile-form">
+            <label>Full Name
+              <input type="text" name="fullName" id="edit-full-name" required>
+            </label>
+            <label>Bio
+              <textarea name="bio" id="edit-bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+            </label>
+            <label>Location
+              <input type="text" name="location" id="edit-location" placeholder="City, Country">
+            </label>
+            <label>Website
+              <input type="url" name="website" id="edit-website" placeholder="https://yourwebsite.com">
+            </label>
+            <button type="submit" class="button button-orange auth-submit">Save Changes</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <section class="section users-section" id="users" style="display: none;">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Community</p>
+              <h2>All Users</h2>
+            </div>
+          </div>
+          <div class="users-grid" id="users-grid">
+            <!-- Users will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Messages Section -->
+      <section class="section messages-section" id="messages" style="display: none;">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Messages</p>
+              <h2>Your Conversations</h2>
+            </div>
+          </div>
+          <div class="messages-layout">
+            <div class="conversations-list" id="conversations-list">
+              <!-- Conversations will be loaded here -->
+            </div>
+            <div class="chat-area" id="chat-area">
+              <div class="chat-placeholder">Select a conversation to start messaging</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notifications Section -->
+      <section class="section notifications-section" id="notifications" style="display: none;">
+        <div class="section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow eyebrow-dark"><span class="eyebrow-line"></span> Notifications</p>
+              <h2>Activity Feed</h2>
+            </div>
+            <button class="button button-small button-ghost" id="mark-all-read">Mark all as read</button>
+          </div>
+          <div class="notifications-list" id="notifications-list">
+            <!-- Notifications will be loaded here -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer section-dark">
+      <div class="section-shell"><div class="footer-main"><div class="footer-brand-block"><a class="brand brand-footer" href="#home" aria-label="TECHNIC CEO International Business Organization home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="brand-name">TECHNIC CEO<span>INT'L BUSINESS ORG</span></span></a><p>TECHNIC CEO INT'L BUSINESS ORG provides reliable digital, technology, and business solutions that help organizations build stronger brands, improve their operations, and grow in today's competitive market.</p><a class="footer-email" href="mailto:gabrielgabriel9727@gmail.com">gabrielgabriel9727@gmail.com <span aria-hidden="true">↗</span></a></div><div class="footer-links"><h3>Explore</h3><a href="#about">About us</a><a href="#services">Services</a><a href="#portfolio">Portfolio concepts</a><a href="#pricing">Pricing</a><a href="#insights">Insights</a></div><div class="footer-links"><h3>Services</h3><a href="#services">Web development</a><a href="#services">Branding &amp; design</a><a href="#services">Digital marketing</a><a href="#services">Business automation</a><a href="#services">IT consulting</a></div><div class="footer-links footer-contact"><h3>Find us</h3><p>Abuja City, Nigeria<br>West Africa</p><a href="tel:+2347088519727">+234 708 851 9727</a><div class="social-links"><a href="mailto:gabrielgabriel9727@gmail.com" aria-label="Email TECHNIC CEO">Email <span aria-hidden="true">↗</span></a><a href="#contact" aria-label="Ask about social media channels">Social <span aria-hidden="true">↗</span></a></div></div></div><div class="footer-bottom"><span>© <span id="current-year">2026</span> TECHNIC CEO INT'L BUSINESS ORG</span><span class="footer-legal"><a href="#contact">Privacy policy</a><a href="#contact">Terms of service</a></span><a href="#top" class="back-top">Back to top ↑</a></div><p class="legal-note">Privacy policy and terms of service links are placeholders. Add approved legal pages before launch.</p></div>
+    </footer>
+  </body>
+</html>

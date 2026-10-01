@@ -1,0 +1,38 @@
+{
+  "name": "TECHNIC CEO INT'L BUSINESS ORG",
+  "short_name": "TECHNIC CEO",
+  "description": "TECHNIC CEO INT'L BUSINESS ORG provides reliable digital, technology, and business solutions that help organizations build stronger brands, improve their operations, and grow in today's competitive market.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#171916",
+  "theme_color": "#84cc16",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-maskable-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["business", "technology", "productivity"],
+  "screenshots": []
+}
