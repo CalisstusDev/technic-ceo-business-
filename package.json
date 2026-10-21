@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build && node scripts/copy-pages.js",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
