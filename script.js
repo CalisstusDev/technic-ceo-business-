@@ -47,8 +47,23 @@ class AuthSystem {
 
     // Auth buttons
     document.getElementById('login-btn').addEventListener('click', () => this.openModal('login'));
-    document.getElementById('signup-btn').addEventListener('click', () => this.openModal('signup'));
+    document.getElementById('google-login').addEventListener('click', () => this.handleGoogleAuth('login'));
+    document.getElementById('google-signup').addEventListener('click', () => this.handleGoogleAuth('signup'));
+    document.getElementById('discord-login').addEventListener('click', () => this.handleDiscordAuth('login'));
+    document.getElementById('discord-signup').addEventListener('click', () => this.handleDiscordAuth('signup'));
     document.getElementById('logout-btn').addEventListener('click', () => this.signOut());
+
+    // User profile dropdown
+    document.getElementById('user-profile-btn').addEventListener('click', () => this.toggleUserDropdown());
+    
+    // Profile link in dropdown
+    const profileLink = document.querySelector('.user-dropdown a[href="profile.html"]');
+    if (profileLink) {
+      profileLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.loadProfileSection();
+      });
+    }
 
     // Form submissions
     this.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
@@ -120,20 +135,20 @@ class AuthSystem {
     this.userName.textContent = name;
     this.userAvatar.textContent = name.charAt(0).toUpperCase();
 
-    // Show user-specific navigation
-    document.querySelector('.nav-users').style.display = 'block';
-    document.querySelector('.nav-messages').style.display = 'block';
-    document.querySelector('.nav-notifications').style.display = 'block';
+    // Show all navigation items when logged in
+    document.querySelectorAll('.nav-menu-item').forEach(item => {
+      item.style.display = 'block';
+    });
   }
 
   updateUIForLoggedOutUser() {
     this.authButtons.style.display = 'flex';
     this.userMenu.style.display = 'none';
 
-    // Hide user-specific navigation
-    document.querySelector('.nav-users').style.display = 'none';
-    document.querySelector('.nav-messages').style.display = 'none';
-    document.querySelector('.nav-notifications').style.display = 'none';
+    // Hide all navigation items when logged out
+    document.querySelectorAll('.nav-menu-item').forEach(item => {
+      item.style.display = 'none';
+    });
   }
 
   async handleLogin(e) {
@@ -199,19 +214,65 @@ class AuthSystem {
   async handleGoogleAuth(type) {
     this.showStatus('Connecting to Google...', 'info');
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin
-      }
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
+        }
+      });
 
-    if (error) {
-      this.showStatus(error.message, 'error');
+      if (error) {
+        if (error.message.includes('not enabled')) {
+          this.showStatus('Google auth not enabled. Contact administrator.', 'error');
+          alert('Google authentication is not enabled in your Supabase project. Please:\n1. Go to Supabase Dashboard → Authentication → Providers\n2. Enable Google provider\n3. Add your Google OAuth credentials\n4. Add this URL to allowed redirects: ' + window.location.origin);
+        } else {
+          this.showStatus(error.message, 'error');
+        }
+        console.error('Google auth error:', error);
+      }
+    } catch (err) {
+      this.showStatus('Connection error. Please try again.', 'error');
+      console.error('Google auth exception:', err);
+    }
+  }
+
+  async handleDiscordAuth(type) {
+    this.showStatus('Connecting to Discord...', 'info');
+
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'discord',
+        options: {
+          redirectTo: `${window.location.origin}/`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
+        }
+      });
+
+      if (error) {
+        if (error.message.includes('not enabled')) {
+          this.showStatus('Discord auth not enabled. Contact administrator.', 'error');
+          alert('Discord authentication is not enabled in your Supabase project. Please:\n1. Go to Supabase Dashboard → Authentication → Providers\n2. Enable Discord provider\n3. Add your Discord OAuth credentials\n4. Add this URL to allowed redirects: ' + window.location.origin);
+        } else {
+          this.showStatus(error.message, 'error');
+        }
+        console.error('Discord auth error:', error);
+      }
+    } catch (err) {
+      this.showStatus('Connection error. Please try again.', 'error');
+      console.error('Discord auth exception:', err);
     }
   }
 
   async signOut() {
+    this.closeUserDropdown();
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error('Sign out error:', error);
@@ -248,11 +309,64 @@ class AuthSystem {
       button.setAttribute('aria-label', 'Show password');
     }
   }
+
+  toggleUserDropdown() {
+    const dropdown = document.getElementById('user-dropdown');
+    const btn = document.getElementById('user-profile-btn');
+    dropdown.classList.toggle('is-open');
+    btn.classList.toggle('is-open');
+  }
+
+  closeUserDropdown() {
+    const dropdown = document.getElementById('user-dropdown');
+    const btn = document.getElementById('user-profile-btn');
+    dropdown.classList.remove('is-open');
+    btn.classList.remove('is-open');
+  }
+
+  async loadProfileSection() {
+    // Show profile section
+    document.querySelectorAll('section').forEach(section => {
+      if (section.id !== 'home' && section.id !== 'about' && section.id !== 'services' && section.id !== 'portfolio' && section.id !== 'pricing' && section.id !== 'testimonials' && section.id !== 'insights' && section.id !== 'contact') {
+        section.style.display = 'none';
+      }
+    });
+    
+    const profileSection = document.getElementById('profile');
+    if (profileSection) {
+      profileSection.style.display = 'block';
+      profileSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Reload profile data
+    await this.loadProfile();
+    this.closeUserDropdown();
+  }
+
+  async loadProfileSection() {
+    // Show profile section
+    document.querySelectorAll('section').forEach(section => {
+      if (section.id !== 'home' && section.id !== 'about' && section.id !== 'services' && section.id !== 'portfolio' && section.id !== 'pricing' && section.id !== 'testimonials' && section.id !== 'insights' && section.id !== 'contact') {
+        section.style.display = 'none';
+      }
+    });
+    
+    const profileSection = document.getElementById('profile');
+    if (profileSection) {
+      profileSection.style.display = 'block';
+      profileSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Reload profile data
+    await this.loadProfile();
+    this.closeUserDropdown();
+  }
 }
 
 // User Profile System
 class UserProfileSystem {
   constructor() {
+    this.userRole = 'member';
     this.init();
   }
 
@@ -268,31 +382,165 @@ class UserProfileSystem {
       if (e.target.id === 'edit-profile-modal') this.closeEditModal();
     });
     document.getElementById('edit-profile-form').addEventListener('submit', (e) => this.handleProfileUpdate(e));
+
+    // Avatar upload
+    document.getElementById('upload-avatar-btn').addEventListener('click', () => {
+      document.getElementById('avatar-upload').click();
+    });
+
+    document.getElementById('avatar-upload').addEventListener('change', (e) => this.handleAvatarUpload(e));
+
+    // Avatar delete
+    document.getElementById('delete-avatar-btn').addEventListener('click', () => this.handleAvatarDelete());
   }
 
   async loadProfile() {
     if (!currentUser) return;
 
     const { data, error } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('*')
       .eq('id', currentUser.id)
       .single();
 
     if (data) {
+      this.userRole = data.role || 'member';
       this.displayProfile(data);
     }
   }
 
-  displayProfile(profile) {
+  async displayProfile(profile) {
     const name = profile.full_name || currentUser?.user_metadata?.full_name || 'User';
     document.getElementById('profile-name').textContent = name;
     document.getElementById('profile-email').textContent = currentUser.email;
-    document.getElementById('profile-avatar-large').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('profile-role').textContent = this.formatRole(profile.role || 'member');
+    document.getElementById('profile-role-detail').textContent = this.formatRole(profile.role || 'member');
+
+    // Handle avatar display
+    const avatarImage = document.getElementById('profile-avatar-large');
+    const avatarPlaceholder = document.getElementById('profile-avatar-placeholder');
+    const deleteBtn = document.getElementById('delete-avatar-btn');
+
+    if (profile.avatar_path) {
+      // Try to load the private image
+      const { data: imageData, error: imageError } = await supabase
+        .storage
+        .from('profile-images')
+        .createSignedUrl(`${currentUser.id}/avatar`, 60);
+
+      if (imageError) {
+        // If RLS denies access, show placeholder
+        console.log('Cannot access avatar image:', imageError);
+        avatarImage.style.display = 'none';
+        avatarPlaceholder.style.display = 'grid';
+        avatarPlaceholder.textContent = name.charAt(0).toUpperCase();
+        deleteBtn.style.display = 'none';
+      } else {
+        avatarImage.src = imageData.signedUrl;
+        avatarImage.style.display = 'block';
+        avatarPlaceholder.style.display = 'none';
+        deleteBtn.style.display = 'block';
+      }
+    } else {
+      avatarImage.style.display = 'none';
+      avatarPlaceholder.style.display = 'grid';
+      avatarPlaceholder.textContent = name.charAt(0).toUpperCase();
+      deleteBtn.style.display = 'none';
+    }
+
     document.getElementById('profile-bio').textContent = profile.bio || 'No bio added yet';
     document.getElementById('profile-location').textContent = profile.location || 'Not specified';
     document.getElementById('profile-website').textContent = profile.website || 'Not specified';
     document.getElementById('profile-joined').textContent = new Date(profile.created_at).toLocaleDateString();
+  }
+
+  formatRole(role) {
+    return role.charAt(0).toUpperCase() + role.slice(1).replace('_', ' ');
+  }
+
+  async handleAvatarUpload(e) {
+    const file = e.target.files[0];
+    if (!file || !currentUser) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size must be less than 5MB');
+      return;
+    }
+
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${currentUser.id}/avatar.${fileExt}`;
+
+    try {
+      // Upload to private storage
+      const { error: uploadError } = await supabase
+        .storage
+        .from('profile-images')
+        .upload(fileName, file, {
+          upsert: true
+        });
+
+      if (uploadError) throw uploadError;
+
+      // Update profile with avatar URL
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_path: fileName })
+        .eq('id', currentUser.id);
+
+      if (updateError) throw updateError;
+
+      // Reload profile to show new avatar
+      await this.loadProfile();
+      createNotification('profile_update', { action: 'avatar_upload' });
+
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+      alert('Error uploading avatar: ' + error.message);
+    }
+
+    // Reset file input
+    e.target.value = '';
+  }
+
+  async handleAvatarDelete() {
+    if (!currentUser) return;
+
+    if (!confirm('Are you sure you want to delete your profile image?')) return;
+
+    try {
+      // Delete from storage
+      const { error: deleteError } = await supabase
+        .storage
+        .from('profile-images')
+        .remove([`${currentUser.id}/avatar`]);
+
+      if (deleteError && deleteError.message !== 'Object not found') {
+        throw deleteError;
+      }
+
+      // Update profile to remove avatar URL
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_path: null })
+        .eq('id', currentUser.id);
+
+      if (updateError) throw updateError;
+
+      // Reload profile
+      await this.loadProfile();
+      createNotification('profile_update', { action: 'avatar_delete' });
+
+    } catch (error) {
+      console.error('Error deleting avatar:', error);
+      alert('Error deleting avatar: ' + error.message);
+    }
   }
 
   openEditModal() {
@@ -306,7 +554,7 @@ class UserProfileSystem {
 
   async loadProfileData() {
     const { data } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .select('*')
       .eq('id', currentUser.id)
       .single();
@@ -316,6 +564,18 @@ class UserProfileSystem {
       document.getElementById('edit-bio').value = data.bio || '';
       document.getElementById('edit-location').value = data.location || '';
       document.getElementById('edit-website').value = data.website || '';
+      document.getElementById('edit-role').value = data.role || 'member';
+
+      // Show role field only for super_admin
+      const roleLabel = document.getElementById('role-label');
+      const roleSelect = document.getElementById('edit-role');
+      if (this.userRole === 'super_admin') {
+        roleLabel.style.display = 'flex';
+        roleSelect.disabled = false;
+      } else {
+        roleLabel.style.display = 'none';
+        roleSelect.disabled = true;
+      }
     }
   }
 
@@ -330,8 +590,13 @@ class UserProfileSystem {
       updated_at: new Date().toISOString()
     };
 
+    // Only allow role changes for super_admin
+    if (this.userRole === 'super_admin') {
+      profileData.role = formData.get('role');
+    }
+
     const { error } = await supabase
-      .from('user_profiles')
+      .from('profiles')
       .update(profileData)
       .eq('id', currentUser.id);
 
@@ -615,19 +880,33 @@ class NotificationSystem {
 // Users Directory System
 class UsersDirectorySystem {
   constructor() {
+    this.currentUserRole = 'member';
     this.init();
   }
 
-  init() {
-    this.loadUsers();
+  async init() {
+    // Get current user's role
+    if (currentUser) {
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', currentUser.id)
+        .single();
+
+      if (profileData) {
+        this.currentUserRole = profileData.role || 'member';
+      }
+    }
+
+    await this.loadUsers();
   }
 
   async loadUsers() {
     if (!currentUser) return;
 
     const { data, error } = await supabase
-      .from('user_profiles')
-      .select('*, auth.users(email)')
+      .from('profiles')
+      .select('*')
       .neq('id', currentUser.id);
 
     if (data) {
@@ -635,7 +914,7 @@ class UsersDirectorySystem {
     }
   }
 
-  displayUsers(users) {
+  async displayUsers(users) {
     const container = document.getElementById('users-grid');
 
     if (users.length === 0) {
@@ -643,22 +922,76 @@ class UsersDirectorySystem {
       return;
     }
 
-    container.innerHTML = users.map(user => `
-      <div class="user-card">
-        <div class="user-card-header">
-          <div class="user-card-avatar">${user.full_name?.charAt(0) || 'U'}</div>
-          <div>
-            <h3 class="user-card-name">${user.full_name || 'Unknown User'}</h3>
-            <p class="user-card-email">${user.email || 'No email'}</p>
+    // Filter users based on role permissions
+    const visibleUsers = users.filter(user => {
+      if (this.currentUserRole === 'member') {
+        // Members can only see other members
+        return user.role === 'member';
+      } else if (this.currentUserRole === 'admin') {
+        // Admins can see members and admins
+        return user.role === 'member' || user.role === 'admin';
+      } else if (this.currentUserRole === 'super_admin') {
+        // Super admins can see everyone
+        return true;
+      }
+      return false;
+    });
+
+    container.innerHTML = await Promise.all(visibleUsers.map(async (user) => {
+      const name = user.full_name || 'Unknown User';
+      const avatarHtml = await this.getUserAvatar(user);
+      const roleBadge = this.getRoleBadge(user.role);
+
+      return `
+        <div class="user-card">
+          <div class="user-card-header">
+            ${avatarHtml}
+            <div>
+              <h3 class="user-card-name">${name}</h3>
+              <p class="user-card-email">${user.email || 'No email'}</p>
+              ${roleBadge}
+            </div>
+          </div>
+          <p class="user-card-bio">${user.bio || 'No bio available'}</p>
+          <div class="user-card-actions">
+            <button class="button button-orange" onclick="startChat('${user.id}')">Message</button>
+            <button class="button button-outline" onclick="viewProfile('${user.id}')">View Profile</button>
           </div>
         </div>
-        <p class="user-card-bio">${user.bio || 'No bio available'}</p>
-        <div class="user-card-actions">
-          <button class="button button-orange" onclick="startChat('${user.id}')">Message</button>
-          <button class="button button-outline" onclick="viewProfile('${user.id}')">View Profile</button>
-        </div>
-      </div>
-    `).join('');
+      `;
+    })).then(htmlArray => htmlArray.join(''));
+  }
+
+  async getUserAvatar(user) {
+    if (!user.avatar_path) {
+      return `<div class="user-card-avatar">${user.full_name?.charAt(0) || 'U'}</div>`;
+    }
+
+    try {
+      const { data: imageData, error } = await supabase
+        .storage
+        .from('profile-images')
+        .createSignedUrl(user.avatar_path, 60);
+
+      if (error) {
+        // RLS denied access, show placeholder
+        return `<div class="user-card-avatar">${user.full_name?.charAt(0) || 'U'}</div>`;
+      }
+
+      return `<img class="user-card-avatar" src="${imageData.signedUrl}" alt="${user.full_name}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">`;
+    } catch (error) {
+      console.log('Cannot access user avatar:', error);
+      return `<div class="user-card-avatar">${user.full_name?.charAt(0) || 'U'}</div>`;
+    }
+  }
+
+  getRoleBadge(role) {
+    if (!role || role === 'member') return '';
+    const colors = {
+      'admin': '#84cc16',
+      'super_admin': '#171916'
+    };
+    return `<span class="user-role-badge" style="display: inline-block; margin-top: 4px; padding: 2px 8px; color: white; background: ${colors[role] || '#84cc16'}; border-radius: 4px; font-size: 9px; font-weight: 700; text-transform: uppercase;">${role.replace('_', ' ')}</span>`;
   }
 }
 
@@ -675,8 +1008,8 @@ async function createNotification(actionType, actionDetails) {
     }]);
 }
 
-function initializeUserFeatures() {
-  new UserProfileSystem();
+async function initializeUserFeatures() {
+  await new UserProfileSystem();
   new UserChatSystem();
   new NotificationSystem();
   new UsersDirectorySystem();
@@ -704,24 +1037,8 @@ window.viewProfile = function(userId) {
   alert('View profile feature coming soon');
 };
 
-// Navigation handling
-document.querySelectorAll('.primary-nav a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const href = link.getAttribute('href');
-    if (href.startsWith('#') && href !== '#home' && href !== '#about' && href !== '#services' && href !== '#portfolio' && href !== '#pricing' && href !== '#testimonials' && href !== '#insights' && href !== '#contact') {
-      e.preventDefault();
-      document.querySelectorAll('section').forEach(section => {
-        if (section.id !== 'home' && section.id !== 'about' && section.id !== 'services' && section.id !== 'portfolio' && section.id !== 'pricing' && section.id !== 'testimonials' && section.id !== 'insights' && section.id !== 'contact') {
-          section.style.display = 'none';
-        }
-      });
-      const targetSection = document.getElementById(href.substring(1));
-      if (targetSection) {
-        targetSection.style.display = 'block';
-      }
-    }
-  });
-});
+// Navigation handling - No longer needed for multi-page app
+// All navigation links now go to separate HTML pages directly
 
 // Menu functionality
 const menuToggle = document.querySelector(".menu-toggle");
@@ -738,6 +1055,11 @@ menuToggle.addEventListener("click", () => {
   menuToggle.setAttribute("aria-expanded", String(!isOpen));
   menuToggle.setAttribute("aria-label", isOpen ? "Open navigation menu" : "Close navigation menu");
   primaryNav.classList.toggle("is-open", !isOpen);
+  
+  // Close user dropdown when opening menu
+  if (!isOpen && authSystem) {
+    authSystem.closeUserDropdown();
+  }
 });
 
 primaryNav.addEventListener("click", (event) => {
@@ -747,7 +1069,17 @@ primaryNav.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeMenu();
-    if (authSystem) authSystem.closeModal();
+    if (authSystem) {
+      authSystem.closeModal();
+      authSystem.closeUserDropdown();
+    }
+  }
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (event) => {
+  if (authSystem && !event.target.closest('.user-profile-wrapper')) {
+    authSystem.closeUserDropdown();
   }
 });
 
